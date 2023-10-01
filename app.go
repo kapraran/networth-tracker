@@ -2,7 +2,10 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"os"
+	"path/filepath"
 )
 
 // App struct
@@ -24,4 +27,16 @@ func (a *App) startup(ctx context.Context) {
 // Greet returns a greeting for the given name
 func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)
+}
+
+func (a *App) GetSavedConfig() string {
+	configDir, _ := os.UserConfigDir()
+	dirPath := filepath.Join(configDir, "networth-tracker")
+	confFilePath := filepath.Join(dirPath, "config.json")
+
+	if _, err := os.Stat(dirPath); errors.Is(err, os.ErrNotExist) {
+		os.MkdirAll(dirPath, 0750)
+	}
+
+	return confFilePath
 }

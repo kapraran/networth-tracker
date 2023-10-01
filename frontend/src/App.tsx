@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { GetSavedConfig } from "../wailsjs/go/main/App.js";
 import { Vault } from "./Vault";
 import { formatCurrency } from "./utils";
 
@@ -19,6 +21,12 @@ const vaults: VaultData[] = [
 ];
 
 function App() {
+  const [h, setH] = useState("");
+
+  useEffect(() => {
+    GetSavedConfig().then(setH);
+  }, []);
+
   return (
     <div id="App">
       <div
@@ -33,7 +41,7 @@ function App() {
           "€"
         )}
       </div>
-
+      {h}
       <VaultList>
         {vaults.map(({ name, money }) => (
           <Vault key={name} name={name} money={money} />
