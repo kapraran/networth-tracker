@@ -6,14 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "npx prettier ./**/*.{js,jsx,css,ts,tsx} --write"
   },
   "dependencies": {
     "chart.js": "^4.4.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
-    "styled-components": "^6.0.8"
+    "styled-components": "^6.0.8",
+    "uniqolor": "^1.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
