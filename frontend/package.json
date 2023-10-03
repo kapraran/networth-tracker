@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "chart.js": "^4.4.0",
+    "luxon": "^3.4.3",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0",
     "styled-components": "^6.0.8",
     "uniqolor": "^1.1.0"
   },

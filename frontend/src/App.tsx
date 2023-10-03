@@ -1,34 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { GetSavedConfig } from "../wailsjs/go/main/App.js";
-import { Vault } from "./Vault";
+import { OpenJsonFile } from "../wailsjs/go/main/App.js";
+import { Vault, VaultData } from "./Vault";
 import { formatCurrency } from "./utils";
 
 const VaultList = styled.div`
   padding: 16px;
 `;
 
-interface VaultData {
-  name: string;
-  money: number;
-}
-
-const vaults: VaultData[] = [
-  { name: "Trade Republic", money: 3000 },
-  { name: "Unicredit", money: 1000000 },
-  { name: "Eurobank", money: 2000 },
-  { name: "Binance", money: 420 },
-];
-
 function App() {
-  const [h, setH] = useState("");
+  const [vaults, setVaults] = useState<VaultData[]>([]);
 
-  useEffect(() => {
-    GetSavedConfig().then(setH);
-  }, []);
+  const openFile = () =>
+    OpenJsonFile().then((str) => setVaults(JSON.parse(str)));
 
   return (
     <div id="App">
+      <button onClick={openFile}>New File</button>
+      <button onClick={openFile}>Open File</button>
       <div
         style={{
           fontSize: "48px",
@@ -37,14 +26,13 @@ function App() {
         }}
       >
         {formatCurrency(
-          vaults.reduce((acc, { money }) => acc + money, 0),
+          vaults.reduce((acc, { money }) => acc + money[0].amount, 0),
           "€"
         )}
       </div>
-      {h}
       <VaultList>
-        {vaults.map(({ name, money }) => (
-          <Vault key={name} name={name} money={money} />
+        {vaults.map((vault) => (
+          <Vault key={vault.name} vault={vault} />
         ))}
       </VaultList>
     </div>

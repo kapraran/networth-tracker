@@ -4,3 +4,5 @@
 export function GetSavedConfig():Promise<string>;
 
 export function Greet(arg1:string):Promise<string>;
+
+export function OpenJsonFile():Promise<string>;

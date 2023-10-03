@@ -2,9 +2,18 @@ import styled from "styled-components";
 import { VaultAvatar } from "./VaultAvatar";
 import { formatCurrency } from "./utils";
 
-interface Props {
+export interface VaultMoneyData {
+  amount: number;
+  datetime: string;
+}
+
+export interface VaultData {
   name: string;
-  money: number;
+  money: VaultMoneyData[];
+}
+
+interface Props {
+  vault: VaultData;
 }
 
 const VaultWrapper = styled.div`
@@ -37,10 +46,15 @@ function VaultHeader({ name, money }: { name: string; money: number }) {
   );
 }
 
-export function Vault({ name, money }: Props) {
+export function Vault({ vault }: Props) {
   return (
     <VaultWrapper className="vault-component">
-      <VaultHeader name={name} money={money} />
+      <VaultHeader name={vault.name} money={vault.money[0].amount} />
+      <div>
+        {vault.money.map((item) => (
+          <div>{item.amount}</div>
+        ))}
+      </div>
     </VaultWrapper>
   );
 }

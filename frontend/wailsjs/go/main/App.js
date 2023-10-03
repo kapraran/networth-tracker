@@ -9,3 +9,7 @@ export function GetSavedConfig() {
 export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
+
+export function OpenJsonFile() {
+  return window['go']['main']['App']['OpenJsonFile']();
+}

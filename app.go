@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App struct
@@ -39,4 +41,18 @@ func (a *App) GetSavedConfig() string {
 	}
 
 	return confFilePath
+}
+
+func (a *App) OpenJsonFile() string {
+	filename, err := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{})
+	if err != nil {
+		return ""
+	}
+
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		return ""
+	}
+
+	return string(data)
 }
