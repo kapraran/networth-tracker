@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { OpenJsonFile } from "../wailsjs/go/main/App.js";
+import { Chart } from "./Chart.js";
 import { Vault, VaultData } from "./Vault";
 import { formatCurrency } from "./utils";
 
@@ -18,6 +19,15 @@ function App() {
     <div id="App">
       <button onClick={openFile}>New File</button>
       <button onClick={openFile}>Open File</button>
+
+      <div
+        style={{
+          height: "200px",
+        }}
+      >
+        <Chart />
+      </div>
+
       <div
         style={{
           fontSize: "48px",
