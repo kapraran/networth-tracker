@@ -6,7 +6,6 @@ import {
   PointElement,
   Tooltip,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -59,5 +58,6 @@ export const data = {
 };
 
 export function Chart() {
-  return <Line options={options} data={data} />;
+  // return <Line options={options} data={data} />;
+  return <div>chart here</div>;
 }

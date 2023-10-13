@@ -1,3 +1,4 @@
+import { Button } from "@fluentui/react-components";
 import { useState } from "react";
 import styled from "styled-components";
 import { OpenJsonFile } from "../wailsjs/go/main/App.js";
@@ -17,8 +18,8 @@ function App() {
 
   return (
     <div id="App">
-      <button onClick={openFile}>New File</button>
-      <button onClick={openFile}>Open File</button>
+      <Button onClick={openFile}>New File</Button>
+      <Button onClick={openFile}>Open File</Button>
 
       <div
         style={{
