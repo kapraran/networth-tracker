@@ -10,8 +10,8 @@
     "format": "npx prettier ./**/*.{js,jsx,css,ts,tsx} --write"
   },
   "dependencies": {
+    "@fluentui/react-components": "^9.35.0",
     "chart.js": "^4.4.0",
-    "faker": "^6.6.6",
     "luxon": "^3.4.3",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

@@ -1,6 +1,6 @@
+import { Dropdown, Input, Option, Switch } from "@fluentui/react-components";
 import { useState } from "react";
 import styled from "styled-components";
-import { LogPrint } from "../wailsjs/runtime/runtime";
 import { VaultAvatar } from "./VaultAvatar";
 import { formatCurrency } from "./utils";
 
@@ -74,21 +74,13 @@ enum FIXED_INTERVAL {
   YEARLY = "Yearly",
 }
 
-// const fixedIntervalLabels = [
-//   { name: "Daily", value: FIXED_INTERVAL.DAILY },
-//   { name: "Weekly", value: FIXED_INTERVAL.WEEKLY },
-//   { name: "Monthly", value: FIXED_INTERVAL.MONTHLY },
-//   { name: "Yearly", value: FIXED_INTERVAL.YEARLY },
-// ];
-
 export function Vault({ vault }: Props) {
   const [expanded, setExpanded] = useState(false);
   const [fixedInterval, setFixedInterval] = useState<string>(
     FIXED_INTERVAL.DAILY
   );
   const [fixedAmount, setFixedAmount] = useState(0);
-
-  LogPrint(fixedInterval);
+  const [enableFixed, setEnableFixed] = useState(false);
 
   return (
     <VaultWrapper className="vault-component">
@@ -103,26 +95,36 @@ export function Vault({ vault }: Props) {
             <div>{item.amount}</div>
           ))}
 
-          <input
-            type="number"
-            value={fixedAmount}
-            onChange={(e) =>
-              setFixedAmount(
-                isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value)
-              )
-            }
-          />
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Switch
+              label="Fixed Amount"
+              checked={enableFixed}
+              onChange={(_, d) => setEnableFixed(d.checked)}
+            />
 
-          <select
-            value={fixedInterval}
-            onChange={(e) => setFixedInterval(e.target.value)}
-          >
-            {Object.values(FIXED_INTERVAL).map((key) => (
-              <option key={key} value={key}>
-                {key}
-              </option>
-            ))}
-          </select>
+            <Input
+              type="number"
+              value={fixedAmount.toString()}
+              onChange={(_, d) => {
+                d.value;
+                setFixedAmount(
+                  isNaN(parseInt(d.value)) ? 0 : parseInt(d.value)
+                );
+              }}
+            />
+
+            <Dropdown
+              placeholder="Select an animal"
+              onOptionSelect={(_, d) => setFixedInterval(d.optionValue!)}
+              value={fixedInterval}
+            >
+              {Object.values(FIXED_INTERVAL).map((key) => (
+                <Option key={key} value={key}>
+                  {key}
+                </Option>
+              ))}
+            </Dropdown>
+          </div>
         </div>
       )}
     </VaultWrapper>

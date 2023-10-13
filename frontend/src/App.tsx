@@ -1,7 +1,6 @@
-import { Button } from "@fluentui/react-components";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { OpenJsonFile } from "../wailsjs/go/main/App.js";
 import { Chart } from "./Chart.js";
 import { Vault, VaultData } from "./Vault";
 import { formatCurrency } from "./utils";
@@ -11,16 +10,14 @@ const VaultList = styled.div`
 `;
 
 function App() {
-  const [vaults, setVaults] = useState<VaultData[]>([]);
+  const location = useLocation();
 
-  const openFile = () =>
-    OpenJsonFile().then((str) => setVaults(JSON.parse(str)));
+  const [vaults, setVaults] = useState<VaultData[]>(
+    location.state.vaults || []
+  );
 
   return (
     <div id="App">
-      <Button onClick={openFile}>New File</Button>
-      <Button onClick={openFile}>Open File</Button>
-
       <div
         style={{
           height: "200px",
