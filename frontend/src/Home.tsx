@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { OpenJsonFile } from "../wailsjs/go/main/App.js";
 import { VaultData } from "./Vault";
 import logoWhitePng from "./assets/logo_white.png";
+import { Col, Stack } from "./common.js";
 
 const Center = styled.div`
   display: flex;
@@ -28,7 +29,7 @@ export default function Home() {
     });
 
   return (
-    <Center>
+    <Col style={{ height: "100dvh" }}>
       <img
         src={logoWhitePng}
         style={{
@@ -36,7 +37,10 @@ export default function Home() {
         }}
       />
 
-      <Button onClick={openFile}>Open File</Button>
-    </Center>
+      <Stack direction="row" gap="1rem" center>
+        <Button onClick={() => console.log("todo")}>New File</Button>
+        <Button onClick={openFile}>Open File</Button>
+      </Stack>
+    </Col>
   );
 }

@@ -1,4 +1,6 @@
-html {
+html,
+#root,
+.fui-FluentProvider {
   min-height: 100dvh;
   background-color: var(--colorNeutralBackground1);
 }

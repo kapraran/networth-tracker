@@ -11,6 +11,7 @@ import { ChevronDown16Filled, ChevronUp16Filled } from "@fluentui/react-icons";
 import { useState } from "react";
 import styled from "styled-components";
 import { VaultAvatar } from "./VaultAvatar";
+import { Row } from "./common";
 import { formatCurrency } from "./utils";
 
 export interface VaultMoneyData {
@@ -56,19 +57,9 @@ function VaultHeader({
   setExpanded: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      <VaultAvatar
-        name={name}
-        size={24}
-        style={{
-          marginRight: "8px",
-        }}
-      />
+    <Row gap="1rem">
+      <VaultAvatar name={name} size={24} />
+
       <div style={{ fontSize: "14px" }}>{name}</div>
       <div style={{ flex: 1, textAlign: "right" }}>
         {formatCurrency(money, "€")}
@@ -78,7 +69,7 @@ function VaultHeader({
         onClick={() => setExpanded((p) => !p)}
         icon={!expanded ? <ChevronDown16Filled /> : <ChevronUp16Filled />}
       />
-    </div>
+    </Row>
   );
 }
 
@@ -107,6 +98,8 @@ export function Vault({ vault }: Props) {
       />
       {expanded && (
         <div>
+          <Divider />
+
           {vault.money.map((item) => (
             <div>{item.amount}</div>
           ))}
@@ -114,7 +107,7 @@ export function Vault({ vault }: Props) {
           <Subtitle2Stronger>Portfolio Growth</Subtitle2Stronger>
           <Divider />
 
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <Row gap="1rem">
             <Switch
               label="Fixed Amount"
               checked={enableFixed}
@@ -147,7 +140,7 @@ export function Vault({ vault }: Props) {
                 </Dropdown>
               </>
             )}
-          </div>
+          </Row>
         </div>
       )}
     </VaultWrapper>
