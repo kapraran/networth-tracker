@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { OpenJsonFile } from "../wailsjs/go/main/App.js";
 import { VaultData } from "./Vault";
+import logoWhitePng from "./assets/logo_white.png";
 
 const Center = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100dvh;
+  flex-direction: column;
 `;
 
 export default function Home() {
@@ -27,6 +29,13 @@ export default function Home() {
 
   return (
     <Center>
+      <img
+        src={logoWhitePng}
+        style={{
+          maxWidth: "30dvh",
+        }}
+      />
+
       <Button onClick={openFile}>Open File</Button>
     </Center>
   );

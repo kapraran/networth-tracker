@@ -1,4 +1,13 @@
-import { Dropdown, Input, Option, Switch } from "@fluentui/react-components";
+import {
+  Button,
+  Divider,
+  Dropdown,
+  Input,
+  Option,
+  Subtitle2Stronger,
+  Switch,
+} from "@fluentui/react-components";
+import { ChevronDown16Filled, ChevronUp16Filled } from "@fluentui/react-icons";
 import { useState } from "react";
 import styled from "styled-components";
 import { VaultAvatar } from "./VaultAvatar";
@@ -38,10 +47,12 @@ const VaultWrapper = styled.div`
 function VaultHeader({
   name,
   money,
+  expanded,
   setExpanded,
 }: {
   name: string;
   money: number;
+  expanded: boolean;
   setExpanded: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
@@ -62,7 +73,11 @@ function VaultHeader({
       <div style={{ flex: 1, textAlign: "right" }}>
         {formatCurrency(money, "€")}
       </div>
-      <button onClick={() => setExpanded((p) => !p)}>+</button>
+
+      <Button
+        onClick={() => setExpanded((p) => !p)}
+        icon={!expanded ? <ChevronDown16Filled /> : <ChevronUp16Filled />}
+      />
     </div>
   );
 }
@@ -87,6 +102,7 @@ export function Vault({ vault }: Props) {
       <VaultHeader
         name={vault.name}
         money={vault.money[0].amount}
+        expanded={expanded}
         setExpanded={setExpanded}
       />
       {expanded && (
@@ -95,6 +111,9 @@ export function Vault({ vault }: Props) {
             <div>{item.amount}</div>
           ))}
 
+          <Subtitle2Stronger>Portfolio Growth</Subtitle2Stronger>
+          <Divider />
+
           <div style={{ display: "flex", alignItems: "center" }}>
             <Switch
               label="Fixed Amount"
@@ -102,28 +121,32 @@ export function Vault({ vault }: Props) {
               onChange={(_, d) => setEnableFixed(d.checked)}
             />
 
-            <Input
-              type="number"
-              value={fixedAmount.toString()}
-              onChange={(_, d) => {
-                d.value;
-                setFixedAmount(
-                  isNaN(parseInt(d.value)) ? 0 : parseInt(d.value)
-                );
-              }}
-            />
+            {enableFixed && (
+              <>
+                <Input
+                  type="number"
+                  value={fixedAmount.toString()}
+                  onChange={(_, d) => {
+                    d.value;
+                    setFixedAmount(
+                      isNaN(parseInt(d.value)) ? 0 : parseInt(d.value)
+                    );
+                  }}
+                />
 
-            <Dropdown
-              placeholder="Select an animal"
-              onOptionSelect={(_, d) => setFixedInterval(d.optionValue!)}
-              value={fixedInterval}
-            >
-              {Object.values(FIXED_INTERVAL).map((key) => (
-                <Option key={key} value={key}>
-                  {key}
-                </Option>
-              ))}
-            </Dropdown>
+                <Dropdown
+                  placeholder="Select an animal"
+                  onOptionSelect={(_, d) => setFixedInterval(d.optionValue!)}
+                  value={fixedInterval}
+                >
+                  {Object.values(FIXED_INTERVAL).map((key) => (
+                    <Option key={key} value={key}>
+                      {key}
+                    </Option>
+                  ))}
+                </Dropdown>
+              </>
+            )}
           </div>
         </div>
       )}

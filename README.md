@@ -1,4 +1,6 @@
-# README
+<p align="center">
+  <img src="frontend/src/assets/logo_white.png" width="250" alt="net worth tracker logo">
+</p>
 
 ## About
 

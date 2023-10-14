@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@fluentui/react-components": "^9.35.0",
+    "@fluentui/react-icons": "^2.0.220",
     "chart.js": "^4.4.0",
     "luxon": "^3.4.3",
     "react": "^18.2.0",
