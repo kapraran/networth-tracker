@@ -6,6 +6,7 @@ import {
   Option,
   Subtitle2Stronger,
   Switch,
+  Text,
 } from "@fluentui/react-components";
 import { ChevronDown16Filled, ChevronUp16Filled } from "@fluentui/react-icons";
 import { useState } from "react";
@@ -82,11 +83,20 @@ enum FIXED_INTERVAL {
 
 export function Vault({ vault }: Props) {
   const [expanded, setExpanded] = useState(false);
+
+  const [enableFixed, setEnableFixed] = useState(false);
+  const [fixedAmount, setFixedAmount] = useState(0);
   const [fixedInterval, setFixedInterval] = useState<string>(
     FIXED_INTERVAL.DAILY
   );
-  const [fixedAmount, setFixedAmount] = useState(0);
-  const [enableFixed, setEnableFixed] = useState(false);
+
+  const [enableInterest, setEnableInterest] = useState(false);
+  const [interestAmount, setInterestAmount] = useState(0);
+  const [interestInterval, setInterestInterval] = useState<string>(
+    FIXED_INTERVAL.DAILY
+  );
+
+  const [enableInfer, setEnableInfer] = useState(false);
 
   return (
     <VaultWrapper className="vault-component">
@@ -98,14 +108,18 @@ export function Vault({ vault }: Props) {
       />
       {expanded && (
         <div>
-          <Divider />
+          <Divider
+            style={{
+              paddingTop: "12px",
+              paddingBottom: "12px",
+            }}
+          />
 
-          {vault.money.map((item) => (
+          {/* {vault.money.map((item) => (
             <div>{item.amount}</div>
-          ))}
+          ))} */}
 
           <Subtitle2Stronger>Portfolio Growth</Subtitle2Stronger>
-          <Divider />
 
           <Row gap="1rem">
             <Switch
@@ -118,6 +132,7 @@ export function Vault({ vault }: Props) {
               <>
                 <Input
                   type="number"
+                  min="0"
                   value={fixedAmount.toString()}
                   onChange={(_, d) => {
                     d.value;
@@ -128,7 +143,6 @@ export function Vault({ vault }: Props) {
                 />
 
                 <Dropdown
-                  placeholder="Select an animal"
                   onOptionSelect={(_, d) => setFixedInterval(d.optionValue!)}
                   value={fixedInterval}
                 >
@@ -140,6 +154,51 @@ export function Vault({ vault }: Props) {
                 </Dropdown>
               </>
             )}
+          </Row>
+
+          <Row gap="1rem">
+            <Switch
+              label="Interest"
+              checked={enableInterest}
+              onChange={(_, d) => setEnableInterest(d.checked)}
+            />
+
+            {enableInterest && (
+              <>
+                <Input
+                  type="number"
+                  min="0"
+                  step="0.5"
+                  value={interestAmount.toString()}
+                  contentAfter={<Text size={400}>%</Text>}
+                  onChange={(_, d) => {
+                    d.value;
+                    setInterestAmount(
+                      isNaN(parseFloat(d.value)) ? 0 : parseFloat(d.value)
+                    );
+                  }}
+                />
+
+                <Dropdown
+                  onOptionSelect={(_, d) => setInterestInterval(d.optionValue!)}
+                  value={interestInterval}
+                >
+                  {Object.values(FIXED_INTERVAL).map((key) => (
+                    <Option key={key} value={key}>
+                      {key}
+                    </Option>
+                  ))}
+                </Dropdown>
+              </>
+            )}
+          </Row>
+
+          <Row gap="1rem">
+            <Switch
+              label="Infer from data"
+              checked={enableInfer}
+              onChange={(_, d) => setEnableInfer(d.checked)}
+            />
           </Row>
         </div>
       )}
