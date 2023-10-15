@@ -37,7 +37,19 @@ export default function Home() {
         }}
       />
 
-      <Stack direction="row" gap="1rem" center>
+      <div
+        style={{
+          fontFamily: "monospace",
+          letterSpacing: "5px",
+          textTransform: "uppercase",
+          fontSize: "20px",
+          marginBottom: "32px",
+        }}
+      >
+        PLOUTOS
+      </div>
+
+      <Stack direction="row" gap="1rem" verticalSpacing="8px" center>
         <Button onClick={() => console.log("todo")}>New File</Button>
         <Button onClick={openFile}>Open File</Button>
       </Stack>

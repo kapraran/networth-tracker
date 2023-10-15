@@ -33,7 +33,7 @@ func (a *App) Greet(name string) string {
 
 func (a *App) GetSavedConfig() string {
 	configDir, _ := os.UserConfigDir()
-	dirPath := filepath.Join(configDir, "networth-tracker")
+	dirPath := filepath.Join(configDir, "ploutos")
 	confFilePath := filepath.Join(dirPath, "config.json")
 
 	if _, err := os.Stat(dirPath); errors.Is(err, os.ErrNotExist) {

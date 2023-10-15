@@ -36,7 +36,7 @@ func main() {
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:  "networth-tracker",
+		Title:  "ploutos",
 		Width:  1024,
 		Height: 768,
 		Menu:   AppMenu,

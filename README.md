@@ -2,6 +2,10 @@
   <img src="frontend/src/assets/logo_white.png" width="250" alt="net worth tracker logo">
 </p>
 
+<p align="center" style="font-size: 20px; letter-spacing: 5px; margin-bottom: 64px">
+  PLOUTOS
+</p>
+
 ## About
 
 This is the official Wails React-TS template.
