@@ -1,8 +1,8 @@
 import { Button } from "@fluentui/react-components";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { OpenJsonFile } from "../wailsjs/go/main/App.js";
-import { VaultData } from "./Vault";
+import { OpenJsonFile } from "../../wailsjs/go/main/App.js";
+import { VaultData } from "./Vault/Vault.js";
 import logoWhitePng from "./assets/logo_white.png";
 import { Col, Stack } from "./common.js";
 

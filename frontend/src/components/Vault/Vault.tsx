@@ -1,5 +1,4 @@
 import {
-  Button,
   Divider,
   Dropdown,
   Input,
@@ -8,12 +7,10 @@ import {
   Switch,
   Text,
 } from "@fluentui/react-components";
-import { ChevronDown16Filled, ChevronUp16Filled } from "@fluentui/react-icons";
 import { useState } from "react";
 import styled from "styled-components";
-import { VaultAvatar } from "./VaultAvatar";
-import { Row } from "./common";
-import { formatCurrency } from "./utils";
+import { Row } from "../common";
+import { VaultHeader } from "./VaultHeader";
 
 export interface VaultMoneyData {
   amount: number;
@@ -32,6 +29,7 @@ export interface VaultData {
       amount: number;
       interval: string;
     };
+    extrapolation: boolean
   };
 }
 
@@ -45,34 +43,6 @@ const VaultWrapper = styled.div`
   border-radius: 6px;
   margin-bottom: 8px;
 `;
-
-function VaultHeader({
-  name,
-  money,
-  expanded,
-  setExpanded,
-}: {
-  name: string;
-  money: number;
-  expanded: boolean;
-  setExpanded: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
-  return (
-    <Row gap="1rem">
-      <VaultAvatar name={name} size={24} />
-
-      <div style={{ fontSize: "14px" }}>{name}</div>
-      <div style={{ flex: 1, textAlign: "right" }}>
-        {formatCurrency(money, "€")}
-      </div>
-
-      <Button
-        onClick={() => setExpanded((p) => !p)}
-        icon={!expanded ? <ChevronDown16Filled /> : <ChevronUp16Filled />}
-      />
-    </Row>
-  );
-}
 
 enum FIXED_INTERVAL {
   DAILY = "Daily",

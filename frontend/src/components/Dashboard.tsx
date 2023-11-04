@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { formatCurrency } from "../utils.js";
 import { Chart } from "./Chart.js";
-import { Vault, VaultData } from "./Vault";
-import { formatCurrency } from "./utils";
+import { Vault, VaultData } from "./Vault/Vault.js";
 
 const VaultList = styled.div`
   padding: 16px;
 `;
 
-function App() {
+function Dashboard() {
   const location = useLocation();
 
   const [vaults, setVaults] = useState<VaultData[]>(
@@ -47,4 +47,4 @@ function App() {
   );
 }
 
-export default App;
+export default Dashboard;
