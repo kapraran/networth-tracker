@@ -41,10 +41,25 @@ export default function Home() {
           letterSpacing: "5px",
           textTransform: "uppercase",
           fontSize: "20px",
-          marginBottom: "32px",
+          marginBottom: "16px",
         }}
       >
         PLOUTOS
+      </div>
+
+      <div
+        style={{
+          fontSize: "12px",
+          width: "80dvw",
+          maxWidth: "500px",
+          textAlign: "center",
+          marginBottom: "16px",
+          color: "#797979",
+        }}
+      >
+        In Greek mythology, Ploutos (Πλοῦτος in Greek) is associated with wealth
+        and prosperity. The word itself is Greek, and it reflects the concept of
+        wealth, affluence, or abundance.
       </div>
 
       <Stack direction="row" gap="1rem" verticalSpacing="8px" center>
