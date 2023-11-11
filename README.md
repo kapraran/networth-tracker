@@ -3,3 +3,5 @@
 </p>
 
 <h2 align="center">P L O U T O S</h2>
+
+In Greek mythology, Ploutos (Πλοῦτος in Greek) is associated with wealth and prosperity. The word itself is Greek, and it reflects the concept of wealth, affluence, or abundance.
