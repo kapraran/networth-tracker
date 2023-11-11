@@ -35,7 +35,8 @@ export function VaultAvatar({ name, size, style }: Props) {
         .map((item) => item.slice(0, 1))
         .join("")
         .trim()
-        .toUpperCase()}
+        .toUpperCase()
+        .substring(0, 2)}
     </div>
   );
 }

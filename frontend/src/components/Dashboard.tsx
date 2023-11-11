@@ -1,10 +1,12 @@
 import { Button } from "@fluentui/react-components";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
+import { useVaultState } from "../state.js";
 import { formatCurrency } from "../utils.js";
 import { Chart } from "./Chart.js";
-import { Vault, VaultData } from "./Vault/Vault.js";
+import { Vault } from "./Vault/Vault.js";
 
 const VaultList = styled.div`
   padding: 16px;
@@ -13,9 +15,16 @@ const VaultList = styled.div`
 function Dashboard() {
   const location = useLocation();
 
-  const [vaults, setVaults] = useState<VaultData[]>(
-    location.state.vaults || []
-  );
+  const vaults = useVaultState((state) => state.vaults);
+  const setVaults = useVaultState((state) => state.setVaults);
+
+  // const [vaults, setVaults] = useState<VaultData[]>(
+  //   location.state.vaults || []
+  // );
+
+  useEffect(() => {
+    setVaults(location.state.vaults);
+  }, [location.state.vaults]);
 
   return (
     <div id="App">
@@ -47,9 +56,10 @@ function Dashboard() {
       >
         <Button
           onClick={() => {
-            setVaults((existing) => [
-              ...existing,
+            setVaults([
+              ...vaults,
               {
+                id: uuidv4(),
                 name: "New Vault",
                 money: [],
               },
@@ -62,7 +72,7 @@ function Dashboard() {
 
       <VaultList>
         {vaults.map((vault) => (
-          <Vault key={vault.name} vault={vault} />
+          <Vault key={vault.id} vault={vault} />
         ))}
       </VaultList>
     </div>

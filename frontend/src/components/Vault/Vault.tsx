@@ -18,6 +18,7 @@ export interface VaultMoneyData {
 }
 
 export interface VaultData {
+  id: string;
   name: string;
   money: VaultMoneyData[];
   increments?: {
@@ -67,16 +68,13 @@ export function Vault({ vault }: Props) {
   );
 
   const [enableInfer, setEnableInfer] = useState(false);
-  const [name, setName] = useState(vault.name);
 
   return (
     <VaultWrapper className="vault-component">
       <VaultHeader
-        name={name}
-        money={vault.money?.[0]?.amount || 0}
+        vault={vault}
         expanded={expanded}
         setExpanded={setExpanded}
-        setName={setName}
       />
       {expanded && (
         <div>

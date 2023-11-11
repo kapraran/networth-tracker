@@ -1,23 +1,23 @@
 import { Button } from "@fluentui/react-components";
-import { ChevronDown16Filled, ChevronUp16Filled } from "@fluentui/react-icons";
+import {
+  ChevronDown16Filled,
+  ChevronUp16Filled,
+  Edit12Filled,
+} from "@fluentui/react-icons";
 import { MutableRefObject, useRef, useState } from "react";
+import { useVaultState } from "../../state";
 import { formatCurrency } from "../../utils";
 import { Row } from "../common";
+import { VaultData } from "./Vault";
 import { VaultAvatar } from "./VaultAvatar";
 
-export function VaultHeader({
-  name,
-  money,
-  expanded,
-  setExpanded,
-  setName,
-}: {
-  name: string;
-  money: number;
+interface Props {
+  vault: VaultData;
   expanded: boolean;
   setExpanded: React.Dispatch<React.SetStateAction<boolean>>;
-  setName: React.Dispatch<React.SetStateAction<string>>;
-}) {
+}
+
+export function VaultHeader({ vault, expanded, setExpanded }: Props) {
   const inputRef = useRef() as MutableRefObject<HTMLInputElement>;
   const [isEditMode, setIsEditMode] = useState(false);
   const enableNameEdit = () => {
@@ -25,11 +25,14 @@ export function VaultHeader({
     inputRef.current?.focus();
   };
 
+  const amount = vault.money?.[0]?.amount || 0;
+
+  const updateVault = useVaultState((state) => state.updateVault);
+
   return (
     <Row gap="1rem">
-      <VaultAvatar name={name} size={24} />
+      <VaultAvatar name={vault.name} size={24} />
 
-      {/* <div style={{ fontSize: "14px" }}>{name}</div> */}
       <input
         ref={inputRef}
         type="text"
@@ -40,26 +43,28 @@ export function VaultHeader({
           background: "transparent",
           color: "white",
           outline: "none",
+          width: `${(vault.name.length || 0) + 1}ch`,
         }}
         onDoubleClick={() => setIsEditMode(true)}
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={vault.name}
+        onChange={(e) => updateVault(vault.id, { name: e.target.value })}
         onKeyUp={(e) => {
           if (e.key === "Enter") setIsEditMode(false);
         }}
         readOnly={!isEditMode}
         onBlur={() => setIsEditMode(false)}
       />
+
       {!isEditMode && (
         <Button
           appearance="transparent"
-          icon={<ChevronDown16Filled />}
+          icon={<Edit12Filled />}
           onClick={enableNameEdit}
         />
       )}
 
       <div style={{ flex: 1, textAlign: "right" }}>
-        {formatCurrency(money, "€")}
+        {formatCurrency(amount, "€")}
       </div>
 
       <Button
