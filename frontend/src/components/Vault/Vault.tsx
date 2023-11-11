@@ -29,7 +29,7 @@ export interface VaultData {
       amount: number;
       interval: string;
     };
-    extrapolation: boolean
+    extrapolation: boolean;
   };
 }
 
@@ -67,14 +67,16 @@ export function Vault({ vault }: Props) {
   );
 
   const [enableInfer, setEnableInfer] = useState(false);
+  const [name, setName] = useState(vault.name);
 
   return (
     <VaultWrapper className="vault-component">
       <VaultHeader
-        name={vault.name}
-        money={vault.money[0].amount}
+        name={name}
+        money={vault.money?.[0]?.amount || 0}
         expanded={expanded}
         setExpanded={setExpanded}
+        setName={setName}
       />
       {expanded && (
         <div>

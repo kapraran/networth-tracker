@@ -1,3 +1,4 @@
+import { Button } from "@fluentui/react-components";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -34,10 +35,31 @@ function Dashboard() {
         }}
       >
         {formatCurrency(
-          vaults.reduce((acc, { money }) => acc + money[0].amount, 0),
+          vaults.reduce((acc, { money }) => acc + (money?.[0]?.amount || 0), 0),
           "€"
         )}
       </div>
+
+      <div
+        style={{
+          padding: "16px 16px 0 16px",
+        }}
+      >
+        <Button
+          onClick={() => {
+            setVaults((existing) => [
+              ...existing,
+              {
+                name: "New Vault",
+                money: [],
+              },
+            ]);
+          }}
+        >
+          Add New Vault
+        </Button>
+      </div>
+
       <VaultList>
         {vaults.map((vault) => (
           <Vault key={vault.name} vault={vault} />
