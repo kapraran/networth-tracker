@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"fmt"
 	"os"
 	"path/filepath"
 
@@ -26,11 +25,6 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
-}
-
 func (a *App) GetSavedConfig() string {
 	configDir, _ := os.UserConfigDir()
 	dirPath := filepath.Join(configDir, "ploutos")
@@ -43,16 +37,36 @@ func (a *App) GetSavedConfig() string {
 	return confFilePath
 }
 
-func (a *App) OpenJsonFile() string {
+// OpenJsonFile opens a JSON file using a file dialog and returns its content as a string.
+func (a *App) OpenJsonFile() (*string, error) {
 	filename, err := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{})
 	if err != nil {
-		return ""
+		return nil, err
 	}
 
 	data, err := os.ReadFile(filename)
 	if err != nil {
-		return ""
+		return nil, err
 	}
 
-	return string(data)
+	stringData := string(data)
+	return &stringData, nil
+}
+
+// CreateNewJsonFile creates a new JSON file and returns its selected directory.
+func (a *App) CreateNewJsonFile() (*string, error) {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return nil, err
+	}
+
+	selectedDir, err := runtime.SaveFileDialog(a.ctx, runtime.SaveDialogOptions{
+		DefaultDirectory: homeDir,
+		DefaultFilename:  "ploutos.json",
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &selectedDir, nil
 }

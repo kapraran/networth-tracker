@@ -19,27 +19,12 @@ func main() {
 	// Create an instance of the app structure
 	app := NewApp()
 
-	AppMenu := menu.NewMenu()
-	FileMenu := AppMenu.AddSubmenu("File")
-	FileMenu.AddText("&Open", keys.CmdOrCtrl("o"), func(cd *menu.CallbackData) {
-		selectedFile, err := runtime.OpenFileDialog(app.ctx, runtime.OpenDialogOptions{})
-		if err != nil {
-
-		}
-
-		fmt.Println(selectedFile)
-	})
-	FileMenu.AddSeparator()
-	FileMenu.AddText("Quit", keys.CmdOrCtrl("q"), func(_ *menu.CallbackData) {
-		runtime.Quit(app.ctx)
-	})
-
 	// Create application with options
 	err := wails.Run(&options.App{
 		Title:  "ploutos",
 		Width:  1024,
 		Height: 768,
-		Menu:   AppMenu,
+		Menu:   createAppMenu(app),
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
@@ -53,4 +38,23 @@ func main() {
 	if err != nil {
 		println("Error:", err.Error())
 	}
+}
+
+func createAppMenu(app *App) *menu.Menu {
+	appMenu := menu.NewMenu()
+	FileMenu := appMenu.AddSubmenu("File")
+	FileMenu.AddText("&Open", keys.CmdOrCtrl("o"), func(cd *menu.CallbackData) {
+		selectedFile, _ := runtime.OpenFileDialog(app.ctx, runtime.OpenDialogOptions{})
+		// if err != nil {
+
+		// }
+
+		fmt.Println(selectedFile)
+	})
+	FileMenu.AddSeparator()
+	FileMenu.AddText("Quit", keys.CmdOrCtrl("q"), func(_ *menu.CallbackData) {
+		runtime.Quit(app.ctx)
+	})
+
+	return appMenu
 }
