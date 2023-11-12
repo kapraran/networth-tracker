@@ -13,3 +13,7 @@ export function GetSavedConfig() {
 export function OpenJsonFile() {
   return window['go']['main']['App']['OpenJsonFile']();
 }
+
+export function WriteStringToFile(arg1, arg2) {
+  return window['go']['main']['App']['WriteStringToFile'](arg1, arg2);
+}

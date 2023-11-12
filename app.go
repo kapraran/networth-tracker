@@ -11,7 +11,8 @@ import (
 
 // App struct
 type App struct {
-	ctx context.Context
+	ctx        context.Context
+	openedFile string
 }
 
 // NewApp creates a new App application struct
@@ -40,15 +41,17 @@ func (a *App) GetSavedConfig() string {
 
 // OpenJsonFile opens a JSON file using a file dialog and returns its content as a string.
 func (a *App) OpenJsonFile() (*string, error) {
-	filename, err := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{})
+	filepath, err := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{})
 	if err != nil {
 		return nil, err
 	}
 
-	data, err := os.ReadFile(filename)
+	data, err := os.ReadFile(filepath)
 	if err != nil {
 		return nil, err
 	}
+
+	a.openedFile = filepath
 
 	stringData := string(data)
 	return &stringData, nil
@@ -72,4 +75,13 @@ func (a *App) CreateNewJsonFile() (*string, error) {
 	}
 
 	return &selectedDir, nil
+}
+
+// WriteStringToFile writes the given contents to a file at the specified filepath.
+func (a *App) WriteStringToFile(contents string, filepath string) error {
+	if filepath == "" {
+		filepath = a.openedFile
+	}
+
+	return os.WriteFile(filepath, []byte(contents), 0644)
 }

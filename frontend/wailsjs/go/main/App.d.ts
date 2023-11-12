@@ -6,3 +6,5 @@ export function CreateNewJsonFile():Promise<any>;
 export function GetSavedConfig():Promise<string>;
 
 export function OpenJsonFile():Promise<any>;
+
+export function WriteStringToFile(arg1:string,arg2:string):Promise<void>;
