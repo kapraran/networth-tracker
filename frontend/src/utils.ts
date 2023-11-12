@@ -23,12 +23,15 @@ export function formatCurrency(amount: number, currency?: string): string {
  * @param delay - The minimum time (in milliseconds) that must elapse between two consecutive invocations of the throttled function.
  * @returns A throttled version of the input function.
  */
-export function throttle(cb: Function, delay: number) {
+export function throttle<T extends (...args: any[]) => void>(
+  cb: T,
+  delay: number
+) {
   // Variable to track the time until the next allowed invocation
   let wait = -1;
 
   // Returning a throttled version of the input function
-  return (...args: any) => {
+  return (...args: Parameters<T>) => {
     // If the wait time is still active, skip the invocation
     if (wait >= 0) return;
 
@@ -37,5 +40,32 @@ export function throttle(cb: Function, delay: number) {
 
     // Set a timeout to reset the wait time after the specified delay
     wait = setTimeout(() => (wait = -1), delay);
+  };
+}
+
+/**
+ * Debounces a given function, ensuring it's not called until a certain delay has passed
+ * since the last invocation. If the debounced function is called again within the delay,
+ * the timer is reset.
+ *
+ * @param cb - The function to be debounced.
+ * @param delay - The time (in milliseconds) that must elapse after the last invocation
+ *                before the debounced function is executed.
+ * @returns A debounced version of the input function.
+ */
+export function debounce<T extends (...args: any[]) => void>(
+  cb: T,
+  delay: number
+) {
+  // Variable to store the timer ID for the setTimeout function
+  let timer = -1;
+
+  // Returning a debounced version of the input function
+  return (...args: Parameters<T>) => {
+    // Clear any existing timer to reset the debounce
+    clearTimeout(timer);
+
+    // Set a new timer to delay the invocation of the original function
+    timer = setTimeout(() => cb(...args), delay);
   };
 }
