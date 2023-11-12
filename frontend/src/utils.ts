@@ -12,7 +12,7 @@ export function formatCurrency(amount: number, currency?: string): string {
       .flatMap((c, i) =>
         (moneyStr.length - i) % 3 === 0 && i !== 0 ? [".", c] : c
       )
-      .join("") + ` ${currency || ""}`
+      .join("") + `${currency || ""}`
   ).trim();
 }
 

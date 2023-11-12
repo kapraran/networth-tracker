@@ -1,4 +1,4 @@
-import { Button } from "@fluentui/react-components";
+import { Button, Title1 } from "@fluentui/react-components";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -7,6 +7,7 @@ import { useVaultState } from "../state.js";
 import { formatCurrency } from "../utils.js";
 import { Chart } from "./Chart.js";
 import { Vault } from "./Vault/Vault.js";
+import { Row } from "./common.js";
 
 const VaultList = styled.div`
   padding: 16px;
@@ -26,32 +27,21 @@ function Dashboard() {
     setVaults(location.state.vaults);
   }, [location.state.vaults]);
 
+  const totalAmount = formatCurrency(
+    vaults.reduce((acc, { money }) => acc + (money?.[0]?.amount || 0), 0),
+    "€"
+  );
+
   return (
     <div id="App">
-      <div
-        style={{
-          height: "200px",
-        }}
-      >
-        <Chart />
+      <div>
+        <Chart vaults={vaults} />
       </div>
 
-      <div
-        style={{
-          fontSize: "48px",
-          padding: "16px",
-          textAlign: "center",
-        }}
-      >
-        {formatCurrency(
-          vaults.reduce((acc, { money }) => acc + (money?.[0]?.amount || 0), 0),
-          "€"
-        )}
-      </div>
-
-      <div
+      <Row
         style={{
           padding: "16px 16px 0 16px",
+          justifyContent: "space-between",
         }}
       >
         <Button
@@ -68,7 +58,9 @@ function Dashboard() {
         >
           Add New Vault
         </Button>
-      </div>
+
+        <Title1>{totalAmount}</Title1>
+      </Row>
 
       <VaultList>
         {vaults.map((vault) => (
