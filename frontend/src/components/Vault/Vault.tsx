@@ -9,6 +9,7 @@ import {
 } from "@fluentui/react-components";
 import { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
+import { useVaultState } from "../../state";
 import { Row } from "../common";
 import { VaultHeader } from "./VaultHeader";
 
@@ -33,7 +34,7 @@ export interface VaultData {
   increments?: {
     fixed?: { amount: number; interval: string };
     percentage?: { amount: number; interval: string };
-    extrapolation: boolean;
+    extrapolation?: boolean;
   };
 }
 interface Props {
@@ -43,19 +44,44 @@ interface Props {
 export function Vault({ vault }: Props) {
   const [expanded, setExpanded] = useState(false);
 
-  const [enableFixed, setEnableFixed] = useState(false);
-  const [fixedAmount, setFixedAmount] = useState(0);
-  const [fixedInterval, setFixedInterval] = useState<string>(
-    FIXED_INTERVAL.DAILY
-  );
+  const updateVault = useVaultState((state) => state.updateVault);
 
+  // fixed amount
+  const [enableFixed, setEnableFixed] = useState(!!vault.increments?.fixed);
+  const fixedAmount = vault?.increments?.fixed?.amount || 0;
+  const fixedInterval =
+    vault?.increments?.fixed?.interval || FIXED_INTERVAL.DAILY;
+
+  const setFixedAmount = (amount: number) =>
+    updateVault(vault.id, {
+      increments: {
+        ...(vault.increments || {}),
+        fixed: {
+          amount,
+          interval: fixedInterval,
+        },
+      },
+    });
+
+  const setFixedInterval = (interval: string) =>
+    updateVault(vault.id, {
+      increments: {
+        ...(vault.increments || {}),
+        fixed: {
+          amount: fixedAmount,
+          interval,
+        },
+      },
+    });
+
+  // interest amount
   const [enableInterest, setEnableInterest] = useState(false);
   const [interestAmount, setInterestAmount] = useState(0);
   const [interestInterval, setInterestInterval] = useState<string>(
     FIXED_INTERVAL.DAILY
   );
 
-  const [enableInfer, setEnableInfer] = useState(false);
+  // const [enableInfer, setEnableInfer] = useState(false);
 
   const handleInputChange = (
     setter: Dispatch<SetStateAction<number>>,
@@ -97,9 +123,7 @@ export function Vault({ vault }: Props) {
                   type="number"
                   min="0"
                   value={fixedAmount.toString()}
-                  onChange={(_, d) =>
-                    handleInputChange(setFixedAmount, d.value)
-                  }
+                  onChange={(_, d) => setFixedAmount(parseFloat(d.value))}
                 />
 
                 <Dropdown
@@ -152,13 +176,13 @@ export function Vault({ vault }: Props) {
             )}
           </Row>
 
-          <Row gap="1rem">
+          {/* <Row gap="1rem">
             <Switch
               label="Infer from data"
               checked={enableInfer}
               onChange={(_, d) => handleSwitchChange(setEnableInfer, d.checked)}
             />
-          </Row>
+          </Row> */}
         </div>
       )}
     </VaultWrapper>
