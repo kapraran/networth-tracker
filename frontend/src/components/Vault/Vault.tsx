@@ -7,36 +7,10 @@ import {
   Switch,
   Text,
 } from "@fluentui/react-components";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import { Row } from "../common";
 import { VaultHeader } from "./VaultHeader";
-
-export interface VaultMoneyData {
-  amount: number;
-  datetime: string;
-}
-
-export interface VaultData {
-  id: string;
-  name: string;
-  money: VaultMoneyData[];
-  increments?: {
-    fixed?: {
-      amount: number;
-      interval: string;
-    };
-    percentage?: {
-      amount: number;
-      interval: string;
-    };
-    extrapolation: boolean;
-  };
-}
-
-interface Props {
-  vault: VaultData;
-}
 
 const VaultWrapper = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.145);
@@ -50,6 +24,20 @@ enum FIXED_INTERVAL {
   WEEKLY = "Weekly",
   MONTHLY = "Monthly",
   YEARLY = "Yearly",
+}
+
+export interface VaultData {
+  id: string;
+  name: string;
+  money: { amount: number; datetime: string }[];
+  increments?: {
+    fixed?: { amount: number; interval: string };
+    percentage?: { amount: number; interval: string };
+    extrapolation: boolean;
+  };
+}
+interface Props {
+  vault: VaultData;
 }
 
 export function Vault({ vault }: Props) {
@@ -69,6 +57,20 @@ export function Vault({ vault }: Props) {
 
   const [enableInfer, setEnableInfer] = useState(false);
 
+  const handleInputChange = (
+    setter: Dispatch<SetStateAction<number>>,
+    value: string
+  ) => {
+    setter(isNaN(parseFloat(value)) ? 0 : parseFloat(value));
+  };
+
+  const handleSwitchChange = (
+    setter: Dispatch<SetStateAction<boolean>>,
+    checked: boolean
+  ) => {
+    setter(checked);
+  };
+
   return (
     <VaultWrapper className="vault-component">
       <VaultHeader
@@ -78,16 +80,7 @@ export function Vault({ vault }: Props) {
       />
       {expanded && (
         <div>
-          <Divider
-            style={{
-              paddingTop: "12px",
-              paddingBottom: "12px",
-            }}
-          />
-
-          {/* {vault.money.map((item) => (
-            <div>{item.amount}</div>
-          ))} */}
+          <Divider style={{ paddingTop: "12px", paddingBottom: "12px" }} />
 
           <Subtitle2Stronger>Portfolio Growth</Subtitle2Stronger>
 
@@ -95,7 +88,7 @@ export function Vault({ vault }: Props) {
             <Switch
               label="Fixed Amount"
               checked={enableFixed}
-              onChange={(_, d) => setEnableFixed(d.checked)}
+              onChange={(_, d) => handleSwitchChange(setEnableFixed, d.checked)}
             />
 
             {enableFixed && (
@@ -104,12 +97,9 @@ export function Vault({ vault }: Props) {
                   type="number"
                   min="0"
                   value={fixedAmount.toString()}
-                  onChange={(_, d) => {
-                    d.value;
-                    setFixedAmount(
-                      isNaN(parseInt(d.value)) ? 0 : parseInt(d.value)
-                    );
-                  }}
+                  onChange={(_, d) =>
+                    handleInputChange(setFixedAmount, d.value)
+                  }
                 />
 
                 <Dropdown
@@ -130,7 +120,9 @@ export function Vault({ vault }: Props) {
             <Switch
               label="Interest"
               checked={enableInterest}
-              onChange={(_, d) => setEnableInterest(d.checked)}
+              onChange={(_, d) =>
+                handleSwitchChange(setEnableInterest, d.checked)
+              }
             />
 
             {enableInterest && (
@@ -141,12 +133,9 @@ export function Vault({ vault }: Props) {
                   step="0.5"
                   value={interestAmount.toString()}
                   contentAfter={<Text size={400}>%</Text>}
-                  onChange={(_, d) => {
-                    d.value;
-                    setInterestAmount(
-                      isNaN(parseFloat(d.value)) ? 0 : parseFloat(d.value)
-                    );
-                  }}
+                  onChange={(_, d) =>
+                    handleInputChange(setInterestAmount, d.value)
+                  }
                 />
 
                 <Dropdown
@@ -167,7 +156,7 @@ export function Vault({ vault }: Props) {
             <Switch
               label="Infer from data"
               checked={enableInfer}
-              onChange={(_, d) => setEnableInfer(d.checked)}
+              onChange={(_, d) => handleSwitchChange(setEnableInfer, d.checked)}
             />
           </Row>
         </div>
@@ -175,3 +164,5 @@ export function Vault({ vault }: Props) {
     </VaultWrapper>
   );
 }
+
+export default Vault;

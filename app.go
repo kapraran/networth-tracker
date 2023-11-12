@@ -25,6 +25,7 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
+// GetSavedConfig returns the path to the saved config file
 func (a *App) GetSavedConfig() string {
 	configDir, _ := os.UserConfigDir()
 	dirPath := filepath.Join(configDir, "ploutos")
@@ -60,10 +61,12 @@ func (a *App) CreateNewJsonFile() (*string, error) {
 		return nil, err
 	}
 
-	selectedDir, err := runtime.SaveFileDialog(a.ctx, runtime.SaveDialogOptions{
+	options := runtime.SaveDialogOptions{
 		DefaultDirectory: homeDir,
 		DefaultFilename:  "ploutos.json",
-	})
+	}
+
+	selectedDir, err := runtime.SaveFileDialog(a.ctx, options)
 	if err != nil {
 		return nil, err
 	}
