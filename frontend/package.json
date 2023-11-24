@@ -12,6 +12,8 @@
   "dependencies": {
     "@fluentui/react-components": "^9.35.0",
     "@fluentui/react-icons": "^2.0.220",
+    "@types/luxon": "^3.3.5",
+    "@types/uuid": "^9.0.7",
     "chart.js": "^4.4.0",
     "luxon": "^3.4.3",
     "react": "^18.2.0",
@@ -19,7 +21,9 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
     "styled-components": "^6.0.8",
-    "uniqolor": "^1.1.0"
+    "uniqolor": "^1.1.0",
+    "uuid": "^9.0.1",
+    "zustand": "^4.4.6"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
