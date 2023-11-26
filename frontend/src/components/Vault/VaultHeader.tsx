@@ -31,7 +31,7 @@ export function VaultHeader({ vault, expanded, setExpanded }: Props) {
 
   return (
     <Row gap="1rem">
-      <VaultAvatar name={vault.name} size={24} />
+      <VaultAvatar name={vault.name} size={32} />
 
       <input
         ref={inputRef}

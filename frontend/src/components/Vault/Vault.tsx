@@ -10,11 +10,12 @@ import {
 import { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import { useVaultState } from "../../state";
-import { Row } from "../common";
+import { Col, Row } from "../common";
 import { VaultHeader } from "./VaultHeader";
+import { VaultTransactions } from "./VaultTransactions";
 
 const VaultWrapper = styled.div`
-  border: 1px solid rgba(255, 255, 255, 0.145);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   padding: 12px;
   border-radius: 6px;
   margin-bottom: 8px;
@@ -108,81 +109,117 @@ export function Vault({ vault }: Props) {
         <div>
           <Divider style={{ paddingTop: "12px", paddingBottom: "12px" }} />
 
-          <Subtitle2Stronger>Portfolio Growth</Subtitle2Stronger>
+          <Row>
+            <Col
+              style={{
+                width: "40%",
+                alignItems: "flex-start",
+              }}
+            >
+              <VaultTransactions vault={vault} />
+            </Col>
 
-          <Row gap="1rem">
-            <Switch
-              label="Fixed Amount"
-              checked={enableFixed}
-              onChange={(_, d) => handleSwitchChange(setEnableFixed, d.checked)}
-            />
+            <Col
+              style={{
+                width: "60%",
+                alignItems: "flex-start",
+              }}
+            >
+              <Subtitle2Stronger>Portfolio Growth</Subtitle2Stronger>
 
-            {enableFixed && (
-              <>
-                <Input
-                  type="number"
-                  min="0"
-                  value={fixedAmount.toString()}
-                  onChange={(_, d) => setFixedAmount(parseFloat(d.value))}
-                />
-
-                <Dropdown
-                  onOptionSelect={(_, d) => setFixedInterval(d.optionValue!)}
-                  value={fixedInterval}
-                >
-                  {Object.values(FIXED_INTERVAL).map((key) => (
-                    <Option key={key} value={key}>
-                      {key}
-                    </Option>
-                  ))}
-                </Dropdown>
-              </>
-            )}
-          </Row>
-
-          <Row gap="1rem">
-            <Switch
-              label="Interest"
-              checked={enableInterest}
-              onChange={(_, d) =>
-                handleSwitchChange(setEnableInterest, d.checked)
-              }
-            />
-
-            {enableInterest && (
-              <>
-                <Input
-                  type="number"
-                  min="0"
-                  step="0.5"
-                  value={interestAmount.toString()}
-                  contentAfter={<Text size={400}>%</Text>}
+              <Row gap="1rem">
+                <Switch
+                  label="Fixed Amount"
+                  checked={enableFixed}
                   onChange={(_, d) =>
-                    handleInputChange(setInterestAmount, d.value)
+                    handleSwitchChange(setEnableFixed, d.checked)
                   }
                 />
 
-                <Dropdown
-                  onOptionSelect={(_, d) => setInterestInterval(d.optionValue!)}
-                  value={interestInterval}
-                >
-                  {Object.values(FIXED_INTERVAL).map((key) => (
-                    <Option key={key} value={key}>
-                      {key}
-                    </Option>
-                  ))}
-                </Dropdown>
-              </>
-            )}
-          </Row>
+                {enableFixed && (
+                  <>
+                    <Input
+                      input={{
+                        style: {
+                          width: "70px",
+                        },
+                      }}
+                      type="number"
+                      min="0"
+                      value={fixedAmount.toString()}
+                      onChange={(_, d) => setFixedAmount(parseFloat(d.value))}
+                    />
 
-          {/* <Row gap="1rem">
-            <Switch
-              label="Infer from data"
-              checked={enableInfer}
-              onChange={(_, d) => handleSwitchChange(setEnableInfer, d.checked)}
-            />
-          </Row> */}
+                    <Dropdown
+                      onOptionSelect={(_, d) =>
+                        setFixedInterval(d.optionValue!)
+                      }
+                      value={fixedInterval}
+                      style={{ minWidth: "auto", width: "120px" }}
+                    >
+                      {Object.values(FIXED_INTERVAL).map((key) => (
+                        <Option key={key} value={key}>
+                          {key}
+                        </Option>
+                      ))}
+                    </Dropdown>
+                  </>
+                )}
+              </Row>
+
+              <Row gap="1rem">
+                <Switch
+                  label="Interest"
+                  checked={enableInterest}
+                  onChange={(_, d) =>
+                    handleSwitchChange(setEnableInterest, d.checked)
+                  }
+                />
+
+                {enableInterest && (
+                  <>
+                    <Input
+                      input={{
+                        style: {
+                          width: "70px",
+                        },
+                      }}
+                      type="number"
+                      min="0"
+                      step="0.5"
+                      value={interestAmount.toString()}
+                      contentAfter={<Text size={400}>%</Text>}
+                      onChange={(_, d) =>
+                        handleInputChange(setInterestAmount, d.value)
+                      }
+                    />
+
+                    <Dropdown
+                      onOptionSelect={(_, d) =>
+                        setInterestInterval(d.optionValue!)
+                      }
+                      value={interestInterval}
+                      style={{ minWidth: "auto", width: "120px" }}
+                    >
+                      {Object.values(FIXED_INTERVAL).map((key) => (
+                        <Option key={key} value={key}>
+                          {key}
+                        </Option>
+                      ))}
+                    </Dropdown>
+                  </>
+                )}
+              </Row>
+
+              {/* <Row gap="1rem">
+  <Switch
+    label="Infer from data"
+    checked={enableInfer}
+    onChange={(_, d) => handleSwitchChange(setEnableInfer, d.checked)}
+  />
+</Row> */}
+            </Col>
+          </Row>
         </div>
       )}
     </VaultWrapper>

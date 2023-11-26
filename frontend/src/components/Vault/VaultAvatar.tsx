@@ -24,7 +24,7 @@ export function VaultAvatar({ name, size, style }: Props) {
         backgroundColor: bgColor,
         color: fontColor,
         fontSize: "10px",
-        lineHeightStep: "10px",
+        lineHeight: "10px",
         fontWeight: "bold",
         userSelect: "none",
         ...(style || {}),
